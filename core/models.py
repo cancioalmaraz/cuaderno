@@ -36,7 +36,7 @@ class design(models.Model):
         ("Adidas", "Adidas"),
     )
 
-    ot = models.CharField(max_length=10, verbose_name = "Orden De Trabajo", unique=True)
+    ot = models.CharField(max_length=10, verbose_name = "Orden De Trabajo")
     worker = models.ManyToManyField(worker, verbose_name = "Trabajador")
     date = models.DateField(verbose_name = "Fecha")
     houri = models.TimeField(verbose_name = "Hora Inicial")

@@ -52,7 +52,7 @@ def graph(request, oj):
 
     for i in range(len(mnts)):
         percent = (mnts[i]*100)/totalMin
-        workers[i] += "\n" + str(percent) + " %"
+        workers[i] += "\n" + str(round(percent,2)) + " %"
 
     f = plt.figure()
 
