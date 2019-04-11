@@ -42,13 +42,6 @@ def clean(mnts, workers):
 
     return m, w
 
-def percents(mnts, workers, total):
-
-    for i in range(len(mnts)):
-        percent = (mnts[i]*100)/total
-        workers[i] += "\n" + str(percent)
-    return workers
-
 def graph(request, oj):
 
     workers = [w.name for w in worker.objects.all()]
