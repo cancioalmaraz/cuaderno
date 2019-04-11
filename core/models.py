@@ -45,7 +45,6 @@ class design(models.Model):
     gestion = MultiSelectField(choices = gestion_choice, verbose_name = "Gestion")
     mts = models.CharField(max_length=10, verbose_name = "Metros")
     color = MultiSelectField(choices = color_choice, verbose_name = "Color")
-    time = models.TimeField(verbose_name = "Tiempo")
 
     class Meta:
         ordering = ['date']
