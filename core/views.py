@@ -7,8 +7,8 @@ from random import sample
 from .models import worker, design
 
 # Create your views here.
-def index(request):
-    return render(request, "core/index.html")
+def index(request, ot):
+    return render(request, "core/index.html", {'ot':ot})
 
 def minutes(obj, oj):
     minutes = []
@@ -31,27 +31,42 @@ def minutes(obj, oj):
             minutes.append(0)
     return minutes
 
-def graph(request):
- 
-    ot = 9996
+def clean(mnts, workers):
+    w = []
+    m = [] 
+
+    for i in range(len(mnts)):
+        if mnts[i] != 0:
+            m.append(mnts[i])
+            w.append(workers[i])
+
+    return m, w
+
+def percents(mnts, workers, total):
+
+    for i in range(len(mnts)):
+        percent = (mnts[i]*100)/total
+        workers[i] += "\n" + str(percent)
+    return workers
+
+def graph(request, oj):
+
     workers = [w.name for w in worker.objects.all()]
-    mnts= minutes(design, ot)
+    mnts= minutes(design, oj)
     totalMin = sum(mnts)
 
-    cont = 0
-    for i in mnts:
-        if i == 0:
-            mnts.pop(cont)
-            workers.pop(cont)
-        cont = cont + 1
+    mnts, workers = clean(mnts, workers)
 
+    for i in range(len(mnts)):
+        percent = (mnts[i]*100)/totalMin
+        workers[i] += "\n" + str(percent) + " %"
 
     f = plt.figure()
 
     # Creamos los ejes
     axes = f.add_axes([0.1, 0.1, 0.75, 0.75]) # [left, bottom, width, height]
     axes.pie(mnts, labels = workers)
-    axes.set_title("Estadistica\nTotal Tiempo Trabajado: " + str(totalMin) + " minutos.\nOrden de Trabajo: " + str(ot))
+    axes.set_title("Estadistica\nTotal Tiempo Trabajado: " + str(totalMin) + " minutos.\nOrden de Trabajo: " + str(oj))
 
     # Como enviaremos la imagen en bytes la guardaremos en un buffer
     buf = io.BytesIO()
